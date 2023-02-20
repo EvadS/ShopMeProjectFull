@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http:/www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Your account details')"/>
+
+<body>
+<div class="container-fluid">
+    <div th:replace="navigation:: menu"></div>
+
+    <form method="post"   enctype="multipart/form-data"
+         style="max-width: 720px; margin: 0 auto"
+          th:action="@{/account/update}"
+          th:object="${user}">
+        <input th:field="*{id}" type="hidden"/>
+        <div class="text-center">
+            <h2>Your account details</h2>
+        </div>
+
+
+        <div class="alert alert-success text-center" th:if="${message!= null}">
+            [[${message}]]
+        </div>
+
+
+        <div class="border border-secondary rounded p-3">
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                    <input class="form-control" th:field="*{email}" type="email"
+                    readonly="readonly"/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">First Name:</label>
+                <div class="col-sm-8">
+                    <input class="form-control" maxlength="45"
+                           minlength="2" required th:field="*{firstName}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Last Name:</label>
+                <div class="col-sm-8">
+                    <input class="form-control" maxlength="45"
+                           minlength="2" required th:field="*{lastName}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Password:</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" th:field="*{password}"
+                           placeholder="Leave blank if you don;t want to change password"
+                    minlength="8" maxlength="20"
+                           oninput="checkPasswordMath(document.getElementById('confirmPassword'))"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Confirm Password:</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" minlength="8" maxlength="20" id="confirmPassword"
+                    oninput="checkPasswordMath(this)"/>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Assigned Roles</label>
+                <div class="col-sm-8">
+                   <span><b>[[${user.roles}]]</b></span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Enabled:</label>
+                <div class="col-sm-8">
+                    <input th:field="*{enabled}" type="checkbox">
+                </div>
+            </div>
+
+            <!--  *********************** File uploading  *****************************88 -->
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Photos:</label>
+
+                <div class="col-sm-8">
+                    <input type="hidden" th:field="*{photos}" />
+                    <input accept="image/png, image/jpeg" class="mb-2" id="fileImage" name="image" type="file"/>
+                    <img alt="Photos preview" class="img-fluid" id="thumbnail"
+                         th:src="@{${user.photosImagePath}}"/>
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="save"/>
+                <input class="btn btn-secondary" id="btnCancel" type="button" value="cancel"/>
+            </div>
+        </div>
+    </form>
+    <div>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+
+<script type="text/javascript">
+    moduleURL = "[[@{/}]]";
+    function checkPasswordMath(confirmPassword){
+        if(confirmPassword.value != $("#password").val()){
+            confirmPassword.setCustomValidity("Password do not match!");
+        }else{
+            confirmPassword.setCustomValidity("");
+        }
+    }
+</script>
+<script th:src="@{/js/common-form.js}"></script>
+</body>
+</html>
