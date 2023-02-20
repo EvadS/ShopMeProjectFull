@@ -10,7 +10,7 @@ import java.util.Set;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(length = 128, nullable = false, unique = true)
     private String name;
@@ -33,20 +33,20 @@ public class Category {
     public Category() {
     }
 
-    public Category(Long id, String name, String alias) {
+    public Category(Integer id, String name, String alias) {
         this.id = id;
         this.name = name;
         this.alias = alias;
     }
 
-    public Category(Long id, String name) {
+    public Category(Integer id, String name) {
         this.id = id;
         this.name = name;
         this.alias = name;
         this.image = "default.png";
     }
 
-    public Category(Long id) {
+    public Category(Integer id) {
         this.id = id;
     }
 
@@ -58,7 +58,7 @@ public class Category {
         return copyCategory;
     }
 
-    public static Category copyIdAndName(Long id, String name) {
+    public static Category copyIdAndName(Integer id, String name) {
         Category category = new Category();
         category.setId(id);
         category.setName(name);
@@ -87,11 +87,11 @@ public class Category {
         return copyCategory;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

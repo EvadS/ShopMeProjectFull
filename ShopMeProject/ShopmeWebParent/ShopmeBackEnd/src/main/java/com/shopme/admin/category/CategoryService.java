@@ -159,7 +159,7 @@ public class CategoryService {
         }
     }
 
-    public String checkUnique(Long id, String name, String alias) {
+    public String checkUnique(Integer id, String name, String alias) {
         boolean isCreatingNew = (id == null || id == 0);
 
         Category categoryByName = categoryRepository.findByName(name);

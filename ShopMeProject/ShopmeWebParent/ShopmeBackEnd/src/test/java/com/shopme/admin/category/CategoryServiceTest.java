@@ -22,7 +22,7 @@ class CategoryServiceTest {
     
     @Test
     public void testCheckUniqueInNewModeReturnDuplicateName(){
-        Long id = null;
+        Integer id = null;
         String name = "Computers";
         String alias = "abc";
 
@@ -37,7 +37,7 @@ class CategoryServiceTest {
 
     @Test
     public void testCheckUniqueInNewModeReturnDuplicateAlias(){
-        Long id = null;
+        Integer id = null;
         String name = "NameABc";
         String alias = "computers";
 
@@ -53,7 +53,7 @@ class CategoryServiceTest {
 
     @Test
     public void testCheckUniqueInNewModeReturnOk(){
-        Long id = null;
+        Integer id = null;
         String name = "NameABc";
         String alias = "computers";
 
@@ -70,11 +70,11 @@ class CategoryServiceTest {
 
     @Test
     public void testCheckUniqueInUpdateModeReturnDuplicateName(){
-        Long id = 1L;
+        Integer id = 1;
         String name = "Computers";
         String alias = "abc";
 
-        Category category = new Category(2L, name, alias);
+        Category category = new Category(2, name, alias);
 
         Mockito.when(repo.findByName(name)).thenReturn(category);
         Mockito.when(repo.findByAlias(alias)).thenReturn(null);
@@ -86,11 +86,11 @@ class CategoryServiceTest {
 
     @Test
     public void testCheckUniqueInUpdateModeReturnDuplicateAlias(){
-        Long id = 1L;
+        Integer id = 1;
         String name = "NameABc";
         String alias = "computers";
 
-        Category category = new Category(2L, name, alias);
+        Category category = new Category(2, name, alias);
 
         Mockito.when(repo.findByName(name)).thenReturn(null);
         Mockito.when(repo.findByAlias(alias)).thenReturn(category);
@@ -103,7 +103,7 @@ class CategoryServiceTest {
 
     @Test
     public void testCheckUniqueInUpdateModeReturnOk(){
-        Long id = 1L;
+        Integer id = 1;
         String name = "Computers";
         String alias = "abc";
 
