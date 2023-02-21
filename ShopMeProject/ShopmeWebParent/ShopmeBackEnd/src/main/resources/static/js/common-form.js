@@ -1,31 +1,42 @@
-$(document).ready(function () {
-    $("#btnCancel").on("click", function () {
+/**
+ *
+ */
+$(document).ready(function() {
+    $("#buttonCancel").on("click", function() {
         window.location = moduleURL;
     });
 
-    $("#fileImage").change(function () {
-        var fileSize = this.files[0].size;
-        console.log("File size: " + fileSize);
-        // 1024 * 11024 = 1048576
-        if (fileSize > 10485760000) {
-            this.setCustomValidity("You must choose an image less  than 1 MB");
-            this.reportValidity();
+    $("#fileImage").change(function() {
+        if (!checkFileSize(this)) {
+            return;
         }
-        else {
-            this.setCustomValidity("");
-            showImageThumbnail(this);
-        }
+
+        showImageThumbnail(this);
+
     });
 });
+
+function checkFileSize(fileInput) {
+    fileSize = fileInput.files[0].size;
+
+    if (fileSize > MAX_FILE_SIZE) {
+        fileInput.setCustomValidity("You must choose an image less than " + MAX_FILE_SIZE + " bytes!");
+        fileInput.reportValidity();
+
+        return false;
+    } else {
+        fileInput.setCustomValidity("");
+
+        return true;
+    }
+}
 
 function showImageThumbnail(fileInput) {
     var file = fileInput.files[0];
     var reader = new FileReader();
-
-    console.log("Show thumbnail....");
-    reader.onload = function (e) {
+    reader.onload = function(e) {
         $("#thumbnail").attr("src", e.target.result);
-    }
+    };
 
     reader.readAsDataURL(file);
-}
+} 

@@ -102,6 +102,7 @@
 <script th:src="@{/js/common-form.js}"></script>
 <script type="text/javascript">
     moduleURL = "[[@{/}]]";
+    MAX_FILE_SIZE = 102400; // 100KB
 
     function checkEmailUnique(form) {
         var url = "[[@{/users/check_email}]]";

@@ -79,38 +79,37 @@
     <div th:replace="fragments :: footer"></div>
 </div>
 
-
 <script type="text/javascript">
     moduleURL = "[[@{/categories}]]";
+    MAX_FILE_SIZE = 102400; // 100KB
+    checkUniqueUrl = "[[@{/products/check_unique}]]";
 
-   function checkUnique(form){
-       catId = $("#id").val();
-       catName = $("#name").val();
-       catAlias = $("#alias").val();
+    function checkUnique(form) {
+        catId = $("#id").val();
+        catName = $("#name").val();
+        catAlias = $("#alias").val();
 
-       csrfValue = $("input[name='_csrf']").val();
-       url = "[[@{/categories/check_unique}]]";
-       params= {id: catId, name: catName, alias: catAlias, _csrf:csrfValue};
+        csrfValue = $("input[name='_csrf']").val();
+        url = "[[@{/categories/check_unique}]]";
+        params = {id: catId, name: catName, alias: catAlias, _csrf: csrfValue};
 
-       $.post(url, params, function (response) {
-           if(response == "OK"){
-               form.submit();
-           }
-           else if  (response == "DuplicateName"){
-               showWarningModal("There is another category having same name "+ catName);
-           }
-           else if  (response == "DuplicateAlias"){
-               showWarningModal("There is another category having same alias "+ catAlias);
-           }else{
-               showErrorModal("Unknown response from server");
-           }
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "DuplicateName") {
+                showWarningModal("There is another category having same name " + catName);
+            } else if (response == "DuplicateAlias") {
+                showWarningModal("There is another category having same alias " + catAlias);
+            } else {
+                showErrorModal("Unknown response from server");
+            }
 
-       }).fail(function(){
-           showErrorModal("Could not connect to server");
-       });
+        }).fail(function () {
+            showErrorModal("Could not connect to server");
+        });
 
-       return false;
-   }
+        return false;
+    }
 </script>
 <script th:src="@{/js/common-form.js}"></script>
 </body>

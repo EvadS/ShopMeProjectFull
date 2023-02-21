@@ -14,7 +14,7 @@
     </div>
 
     <form th:action="@{/products/save}" method="post" onsubmit="return checkUnique(this)"
-          th:object="${product}">
+          th:object="${product}" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}" />
         <div>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -44,11 +44,18 @@
                 <div class="tab-pane" id="description" role="tabpanel">
                     <div th:replace="products/product_description :: content"></div>
                 </div>
-                <div class="tab-pane" id="images" role="tabpanel">Images</div>
-                <div class="tab-pane" id="details" role="tabpanel">Details</div>
+                <div class="tab-pane" id="images" role="tabpanel">
+                    <div th:replace="products/product_image :: content"></div>
+                </div>
+
+                <div class="tab-pane" id="details" role="tabpanel">
+                    Details
+                </div>
+
                 <div class="tab-pane" id="shipping" role="tabpanel">
                     <div th:replace="products/product_shipping :: content"></div>
                 </div>
+
             </div>
         </div>
         <div class="text-center">
@@ -63,65 +70,17 @@
 
 </div>
 <script type="text/javascript">
-
+    MAX_FILE_SIZE = 502400; // 500KB
     moduleURL = "[[@{/products}]]";
     brandModuleURL = "[[@{/brands}]]";
 
     dropdownBrands = $("#brand");
     dropdownCategories = $("#category");
 
-    $("#shortDescription").richText();
-    $("#fullDescription").richText();
-
-
-    $(document).ready(function() {
-        dropdownBrands.change(function() {
-            dropdownCategories.empty();
-            getCategories();
-        });
-
-        getCategories();
-    });
-
-
-    function getCategories() {
-        brandId = dropdownBrands.val();
-        url = brandModuleURL + "/" + brandId + "/categories";
-
-        $.get(url, function(responseJson) {
-            $.each(responseJson, function(index, category) {
-                $("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
-            });
-        });
-    }
-
-    function checkUnique(form) {
-        productId = $("#id").val();
-        productName = $("#name").val();
-
-        csrfValue = $("input[name='_csrf']").val();
-
-        url = "[[@{/products/check_unique}]]";
-
-        params = {id: productId, name: productName, _csrf: csrfValue};
-
-        $.post(url, params, function(response) {
-            if (response == "OK") {
-                form.submit();
-            } else if (response == "Duplicate") {
-                showWarningModal("There is another product having the name " + productName);
-            } else {
-                showErrorModal("Unknown response from server");
-            }
-
-        }).fail(function() {
-            showErrorModal("Could not connect to the server");
-        });
-
-        return false;
-    }
+    defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
 </script>
 
-<script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/common-form.js}"></script>
+<script th:src="@{/js/products_form.js}"></script>
 </body>
 </html>
