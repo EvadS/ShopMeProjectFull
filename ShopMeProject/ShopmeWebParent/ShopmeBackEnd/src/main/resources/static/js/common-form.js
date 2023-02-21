@@ -1,6 +1,4 @@
-/**
- *
- */
+
 $(document).ready(function() {
     $("#buttonCancel").on("click", function() {
         window.location = moduleURL;
@@ -12,7 +10,6 @@ $(document).ready(function() {
         }
 
         showImageThumbnail(this);
-
     });
 });
 

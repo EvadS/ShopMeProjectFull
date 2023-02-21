@@ -3,9 +3,7 @@ package com.shopme.admin.user.common.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
@@ -57,8 +55,22 @@ public class Product implements Serializable {
     @Column(name = "main_image", nullable = false)
     private String mainImage;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL
+            , orphanRemoval = true
+    )
     private Set<ProductImage> images = new HashSet<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL , orphanRemoval = true
+    )
+    private List<ProductDetail> details = new ArrayList<>();
+
+    public void addDetail(String name, String value) {
+        this.details.add(new ProductDetail(name, value, this));
+    }
+
+    public void addDetail(Integer id, String name, String value) {
+        this.details.add(new ProductDetail(id, name, value, this));
+    }
 
     public void addExtraImage(String imageName) {
         this.images.add(new ProductImage(imageName, this));
@@ -123,6 +135,14 @@ public class Product implements Serializable {
 
     public String getFullDescription() {
         return fullDescription;
+    }
+
+    public List<ProductDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<ProductDetail> details) {
+        this.details = details;
     }
 
     public void setFullDescription(String fullDescription) {
@@ -236,9 +256,23 @@ public class Product implements Serializable {
 
     @Transient
     public String getMainImagePath() {
-        if (id == null || mainImage == null) return "/images/image-thumbnail.png";
+        if (id == null || mainImage == null){
+            return "/images/image-thumbnail.png";
+        }
 
         return "/product-images/" + this.id + "/" + this.mainImage;
     }
 
+    public boolean containsImageName(String imageName) {
+        Iterator<ProductImage> iterator = images.iterator();
+
+        while (iterator.hasNext()) {
+            ProductImage image = iterator.next();
+            if (image.getName().equals(imageName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
