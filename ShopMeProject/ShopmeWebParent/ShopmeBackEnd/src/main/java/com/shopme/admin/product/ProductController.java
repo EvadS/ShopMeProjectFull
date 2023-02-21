@@ -73,10 +73,8 @@ public class ProductController {
 
         LOGGER.info("ProductController | saveProduct is started");
 
-
         productService.save(product);
         ra.addFlashAttribute("messageSuccess", "The product has been saved successfully.");
-
 
         return "redirect:/products";
     }
