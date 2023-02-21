@@ -151,7 +151,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category get(Long id) throws CategoryNotFoundException {
+    public Category get(Integer id) throws CategoryNotFoundException {
         try {
             return categoryRepository.findById(id).get();
         } catch (NoSuchElementException ex) {
@@ -209,11 +209,11 @@ public class CategoryService {
         return sortedChildren;
     }
 
-    public void updateCategoryEnabledStatus(Long id, boolean enabled) {
+    public void updateCategoryEnabledStatus(Integer id, boolean enabled) {
         categoryRepository.updateEnabledStatus(id, enabled);
     }
 
-    public void delete(Long id) throws CategoryNotFoundException {
+    public void delete(Integer id) throws CategoryNotFoundException {
 
         Long countById = categoryRepository.countById(id);
 

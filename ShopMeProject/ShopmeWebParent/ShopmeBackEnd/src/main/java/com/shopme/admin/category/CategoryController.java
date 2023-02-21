@@ -132,7 +132,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/edit/{id}")
-    public String editCategory(@PathVariable(name = "id") Long id, Model model,
+    public String editCategory(@PathVariable(name = "id") Integer id, Model model,
                                RedirectAttributes ra) {
 
         LOGGER.info("CategoryController | editCategory is started");
@@ -214,7 +214,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{id}/enabled/{status}")
-    public String updateCategoryEnabledStatus(@PathVariable("id") Long id,
+    public String updateCategoryEnabledStatus(@PathVariable("id") Integer id,
                                               @PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
 
         LOGGER.info("CategoryController | updateCategoryEnabledStatus is started");
@@ -232,7 +232,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/delete/{id}")
-    public String deleteCategory(@PathVariable(name = "id") Long id,
+    public String deleteCategory(@PathVariable(name = "id") Integer id,
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
 

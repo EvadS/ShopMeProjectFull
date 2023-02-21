@@ -20,5 +20,11 @@ class BrandRepositoryTest {
     @Autowired
     private BrandRepository repo;
 
+    @Test
+    public  void testFindAll(){
+        Iterable<Brand> brands = repo.findAll();
+        brands.forEach(System.out::println);
 
+        assertThat(brands).isNotNull();
+    }
 }

@@ -1,7 +1,6 @@
 package com.shopme.admin.product;
 
 
-import com.shopme.admin.brands.BrandController;
 import com.shopme.admin.brands.BrandService;
 import com.shopme.admin.error.ProductNotFoundException;
 import com.shopme.admin.user.common.entity.Brand;
@@ -25,9 +24,7 @@ public class ProductController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     private ProductService productService;
-
     private BrandService brandService;
-
 
     @Autowired
     public ProductController(ProductService productService, BrandService brandService) {
@@ -54,7 +51,6 @@ public class ProductController {
     public String newProduct(Model model) {
 
         LOGGER.info("ProductController | newProduct is started");
-
         List<Brand> listBrands = brandService.listAll();
 
         Product product = new Product();
