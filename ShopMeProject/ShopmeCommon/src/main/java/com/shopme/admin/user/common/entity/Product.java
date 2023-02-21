@@ -3,9 +3,7 @@ package com.shopme.admin.user.common.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
@@ -59,6 +57,13 @@ public class Product implements Serializable {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<ProductImage> images = new HashSet<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductDetail> details = new ArrayList<>();
+
+    public void addDetail(String name, String value) {
+        this.details.add(new ProductDetail(name, value, this));
+    }
 
     public void addExtraImage(String imageName) {
         this.images.add(new ProductImage(imageName, this));
