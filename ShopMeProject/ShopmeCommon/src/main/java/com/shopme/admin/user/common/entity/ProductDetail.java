@@ -2,10 +2,6 @@ package com.shopme.admin.user.common.entity;
 
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +41,6 @@ public class ProductDetail implements Serializable{
         this.value = value;
         this.product = product;
     }
-
 
     public ProductDetail(Integer id, String name, String value, Product product) {
         this.id = id;
