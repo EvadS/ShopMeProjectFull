@@ -5,6 +5,7 @@ import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.brands.BrandService;
 import com.shopme.admin.category.CategoryService;
 import com.shopme.admin.error.ProductNotFoundException;
+import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.admin.user.common.entity.Brand;
 import com.shopme.admin.user.common.entity.Category;
 import com.shopme.admin.user.common.entity.Product;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -136,7 +138,8 @@ public class ProductController {
                               @RequestParam(name = "detailNames", required = false) String[] detailNames,
                               @RequestParam(name = "detailValues", required = false) String[] detailValues,
                               @RequestParam(name = "imageIDs", required = false) String[] imageIDs,
-                              @RequestParam(name = "imageNames", required = false) String[] imageNames
+                              @RequestParam(name = "imageNames", required = false) String[] imageNames,
+                              @AuthenticationPrincipal ShopmeUserDetails loggedUser
     ) throws IOException {
 
         LOGGER.info("ProductController | saveProduct is started");
@@ -144,6 +147,15 @@ public class ProductController {
         LOGGER.info("ProductController | saveProduct | mainImageMultipart.isEmpty() : " + mainImageMultipart.isEmpty());
 
         LOGGER.info("ProductController | saveProduct | extraImageMultiparts size : " + extraImageMultiparts.length);
+
+        if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Editor")) {
+            if (loggedUser.hasRole("Salesperson")) {
+                productService.saveProductPrice(product);
+                ra.addFlashAttribute("messageSuccess", "The product has been saved successfully.");
+
+                return "redirect:/products";
+            }
+        }
 
         setMainImageName(mainImageMultipart, product);
 
