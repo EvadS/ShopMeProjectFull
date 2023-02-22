@@ -18,6 +18,6 @@ public interface IProductService {
 
     public void delete(Integer id) throws ProductNotFoundException;
 
-    Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword);
+    Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword, Integer categoryId);
 
     }

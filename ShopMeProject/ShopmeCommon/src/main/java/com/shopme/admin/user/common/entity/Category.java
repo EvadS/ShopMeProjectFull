@@ -30,6 +30,8 @@ public class Category {
     @Transient
     private boolean hasChildren;
 
+    @Column(name = "all_parents_ids", length = 256, nullable = true)
+    private String allParentIDs;
     public Category() {
     }
 
@@ -163,5 +165,13 @@ public class Category {
     @Override
     public String toString() {
         return "Category{" + "name='" + name + '\'' + '}';
+    }
+
+    public String getAllParentIDs() {
+        return allParentIDs;
+    }
+
+    public void setAllParentIDs(String allParentIDs) {
+        this.allParentIDs = allParentIDs;
     }
 }

@@ -3,8 +3,10 @@ package com.shopme.admin.product;
 
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.brands.BrandService;
+import com.shopme.admin.category.CategoryService;
 import com.shopme.admin.error.ProductNotFoundException;
 import com.shopme.admin.user.common.entity.Brand;
+import com.shopme.admin.user.common.entity.Category;
 import com.shopme.admin.user.common.entity.Product;
 import com.shopme.admin.user.common.entity.ProductImage;
 import org.slf4j.Logger;
@@ -39,52 +41,54 @@ public class ProductController {
     private ProductService productService;
 
     private BrandService brandService;
+    private CategoryService categoryService;
 
 
     @Autowired
-    public ProductController(ProductService productService, BrandService brandService) {
+    public ProductController(ProductService productService, BrandService brandService, CategoryService categoryService) {
         super();
         this.productService = productService;
         this.brandService = brandService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/products")
     public String listFirstPage(Model model) {
         LOGGER.info("ProductController | listFirstPage is started");
 
-        return listByPage(1, model, "name", "asc", null);
+        return listByPage(1, model, "name", "asc", null, 0);
     }
 
     @GetMapping("/products/page/{pageNum}")
     public String listByPage(
             @PathVariable(name = "pageNum") int pageNum, Model model,
             @Param("sortField") String sortField, @Param("sortDir") String sortDir,
-            @Param("keyword") String keyword) {
+            @Param("keyword") String keyword,
+            @Param("categoryId")Integer categoryId) {
 
         LOGGER.info("ProductController | listByPage is started");
 
-        Page<Product> page = productService.listByPage(pageNum, sortField, sortDir, keyword);
+        Page<Product> page = productService.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
         List<Product> listProducts = page.getContent();
+
+        List<Category> listCategories = categoryService.listCategoriesUsedInForm();
 
         LOGGER.info("ProductController | listByPage | listProducts size : " + listProducts.size() );
 
         long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
         long endCount = startCount + ProductService.PRODUCTS_PER_PAGE - 1;
 
-        LOGGER.info("ProductController | listByPage | startCount : " + startCount );
-        LOGGER.info("ProductController | listByPage | endCount : " + endCount );
-
-        LOGGER.info("ProductController | listByPage | page.getTotalElements() : " + page.getTotalElements() );
-
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
         }
 
         LOGGER.info("ProductController | listByPage | endCount : " + endCount );
-
         String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-
         LOGGER.info("ProductController | listByPage | reverseSortDir : " + reverseSortDir );
+
+        if(categoryId != null){
+            model.addAttribute("categoryId", categoryId);
+        }
 
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -96,6 +100,7 @@ public class ProductController {
         model.addAttribute("reverseSortDir", reverseSortDir);
         model.addAttribute("keyword", keyword);
         model.addAttribute("listProducts", listProducts);
+        model.addAttribute("listCategories", listCategories);
 
         return "products/products";
     }
