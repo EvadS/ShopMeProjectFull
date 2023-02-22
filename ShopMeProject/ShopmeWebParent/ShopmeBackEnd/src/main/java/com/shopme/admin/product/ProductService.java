@@ -7,6 +7,10 @@ import java.util.NoSuchElementException;
 import javax.transaction.Transactional;
 import com.shopme.admin.user.common.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.shopme.admin.error.ProductNotFoundException;
 
@@ -15,6 +19,7 @@ import com.shopme.admin.error.ProductNotFoundException;
 @Transactional
 public class ProductService implements IProductService{
 
+    public static final int PRODUCTS_PER_PAGE = 5;
     @Autowired
     private ProductRepository repo;
 
@@ -71,6 +76,21 @@ public class ProductService implements IProductService{
         }
 
         repo.deleteById(id);
+    }
+
+    @Override
+    public Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
+        Sort sort = Sort.by(sortField);
+
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE, sort);
+
+        if (keyword != null) {
+            return repo.findAll(keyword, pageable);
+        }
+
+        return repo.findAll(pageable);
     }
 
     public Product get(Integer id) throws ProductNotFoundException {

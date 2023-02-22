@@ -1,0 +1,10 @@
+INSERT INTO categories (id,alias,enabled,image,name,parent_id)
+SELECT  id,alias,enabled,image,name,  
+CASE
+            WHEN parent_id = ' '
+               THEN NULL
+               ELSE parent_id
+       END as parent_id
+from tmp_categories;
+
+SELECT * FROM tmp_categories;
