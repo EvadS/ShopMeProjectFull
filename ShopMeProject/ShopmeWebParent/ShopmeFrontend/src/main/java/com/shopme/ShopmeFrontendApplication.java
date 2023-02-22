@@ -1,4 +1,4 @@
-package com.shopme.admin.user.site;
+package com.shopme;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
