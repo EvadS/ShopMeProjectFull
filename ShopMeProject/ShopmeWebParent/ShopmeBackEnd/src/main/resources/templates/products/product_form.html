@@ -52,15 +52,15 @@
                         <div th:replace="products/product_description :: content"></div>
                     </th:block>
                 </div>
-                <div class="tab-pane" id="images" role="tabpanel">
 
+
+                <div class="tab-pane" id="images" role="tabpanel">
                     <th:block sec:authorize="hasAuthority('Salesperson')">
                         <div th:replace="products/product_image_read_only :: content"></div>
                     </th:block>
                     <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
                         <div th:replace="products/product_image :: content"></div>
                     </th:block>
-
                 </div>
 
                 <div class="tab-pane p-3" id="details" role="tabpanel">
