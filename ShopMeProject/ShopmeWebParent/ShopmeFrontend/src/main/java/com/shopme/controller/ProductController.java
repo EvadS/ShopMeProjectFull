@@ -29,22 +29,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/c/{category_alias}")
-    public String viewCategory(@PathVariable("category_alias") String alias,
-                               Model model) {
+    public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,
+                                        Model model) {
         LOGGER.info("AccountController | viewCategoryFirstPage is called");
 
-        Category category = categoryService.getCategory(alias);
-
-        if(category == null){
-            return "error/404";
-        }
-
-        List<Category> listCategoryParents = categoryService.getCategoryParents(category);
-
-        model.addAttribute("pageTitle", category.getName());
-        model.addAttribute("listCategoryParents", listCategoryParents);
-
-        return "products_by_category";
+        return viewCategoryByPage(alias, 1, model);
     }
 
     @GetMapping("/c/{category_alias}/page/{pageNum}")

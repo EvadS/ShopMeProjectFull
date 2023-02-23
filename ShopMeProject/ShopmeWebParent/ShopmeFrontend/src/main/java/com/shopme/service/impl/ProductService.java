@@ -11,12 +11,9 @@ import com.shopme.repository.ProductRepository;
 
 @Service
 public class ProductService implements IProductService {
-
     public static final int PRODUCTS_PER_PAGE = 10;
-
     @Autowired
     private ProductRepository repo;
-
 
     @Override
     public Page<Product> listByCategory(int pageNum, Integer categoryId) {
