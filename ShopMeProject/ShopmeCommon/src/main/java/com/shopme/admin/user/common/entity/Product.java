@@ -7,7 +7,6 @@ import java.util.*;
 
 @Entity
 @Table(name = "products")
-
 public class Product implements Serializable {
 
     @Id
@@ -268,6 +267,7 @@ public class Product implements Serializable {
             if (image.getName().equals(imageName)) {
                 return true;
             }
+
         }
 
         return false;
