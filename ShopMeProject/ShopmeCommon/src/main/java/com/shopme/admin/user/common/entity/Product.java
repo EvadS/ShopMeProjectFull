@@ -7,7 +7,6 @@ import java.util.*;
 
 @Entity
 @Table(name = "products")
-
 public class Product implements Serializable {
 
     @Id
@@ -268,6 +267,7 @@ public class Product implements Serializable {
             if (image.getName().equals(imageName)) {
                 return true;
             }
+
         }
 
         return false;
@@ -279,5 +279,13 @@ public class Product implements Serializable {
             return name.substring(0, 70).concat("...");
         }
         return name;
+    }
+
+    @Transient
+    public float getDiscountPrice(){
+        if(discountPercent > 0 ){
+            return price * ((100 - discountPercent )/100);
+        }
+        return  this.price;
     }
 }
