@@ -6,3 +6,15 @@ att first time should be set in properties file
 # spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+## base url 
+```http request
+http://localhost:8080/ShopmeAdmin/
+```
+
+## startup command
+
+
+## Requirements 
+    [] java 11
+    [] mySql

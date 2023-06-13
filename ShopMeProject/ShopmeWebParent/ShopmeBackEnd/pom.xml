@@ -9,7 +9,7 @@
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>ShopmeBackEnd</artifactId>
-	<name>ShopmeBackEnd</name>
+	<name>shopme-bakcend</name>
 	<description>Shop me admin project </description>
 
 	<properties>
@@ -65,6 +65,7 @@
 
 
 	<build>
+		<finalName>${project.name}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
